@@ -13,6 +13,9 @@ public class Fornecedor extends PessoaFisica implements Serializable {
 	private Date dataUltimaVisita;
 	private Empresa empresa;
 
+	public Fornecedor() {
+	}
+	
 	public Fornecedor(Integer idFornecedor, String nome, String sobrenome, String cpf, String rg, String telefone,
 			Date dataUltimaVisita, Empresa empresa) {
 		super(nome, sobrenome, cpf, rg, telefone);

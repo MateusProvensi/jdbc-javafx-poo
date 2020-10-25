@@ -11,6 +11,9 @@ public class Marca extends PessoaJuridica implements Serializable {
 	private Integer idMarca;
 	private Empresa empresa;
 
+	public Marca() {
+	}
+	
 	public Marca(Integer idMarca, String nome, String cnpj, Empresa empresa) {
 		super(nome, cnpj);
 		this.idMarca = idMarca;

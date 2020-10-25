@@ -9,6 +9,9 @@ public class PessoaJuridica implements Serializable {
 	private String nome;
 	private String cnpj;
 
+	public PessoaJuridica() {
+	}
+	
 	public PessoaJuridica(String nome, String cnpj) {
 		this.nome = nome;
 		this.cnpj = cnpj;

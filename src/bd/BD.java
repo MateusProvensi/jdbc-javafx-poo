@@ -41,7 +41,7 @@ public class BD {
 		}
 	}
 	
-	public void fecharConnection() {
+	public static void fecharConnection() {
 		try {
 			conn.close();
 		} catch (SQLException e) {
@@ -49,7 +49,7 @@ public class BD {
 		}
 	}
 	
-	public void fecharStatement(Statement st) {
+	public static void fecharStatement(Statement st) {
 		try {
 			st.close();
 		} catch (SQLException e) {
@@ -57,7 +57,7 @@ public class BD {
 		}
 	}
 	
-	public void fecharResultSet(ResultSet rs) {
+	public static void fecharResultSet(ResultSet rs) {
 		try {
 			rs.close();
 		} catch (SQLException e) {

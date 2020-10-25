@@ -11,6 +11,9 @@ public class Funcionario extends PessoaFisica implements Serializable {
 	private Integer idFuncionario;
 	private Integer numeroCaixa;
 
+	public Funcionario() {
+	}
+	
 	public Funcionario( Integer idFuncionario, String nome, String sobrenome, String cpf, String rg, String telefone,
 			Integer numeroCaixa) {
 		super(nome, sobrenome, cpf, rg, telefone);

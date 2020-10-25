@@ -12,6 +12,9 @@ public class PessoaFisica implements Serializable {
 	private String rg;
 	private String telefone;
 
+	public PessoaFisica() {
+	}
+	
 	public PessoaFisica(String nome, String sobrenome, String cpf, String rg, String telefone) {
 		this.nome = nome;
 		this.sobrenome = sobrenome;

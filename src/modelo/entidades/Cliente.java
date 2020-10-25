@@ -10,6 +10,9 @@ public class Cliente extends PessoaFisica implements Serializable {
 
 	private Integer idCliente;
 
+	public Cliente() {
+	}
+	
 	public Cliente( Integer idCliente, String nome, String sobrenome, String cpf, String rg, String telefone) {
 		super(nome, sobrenome, cpf, rg, telefone);
 		this.idCliente = idCliente;

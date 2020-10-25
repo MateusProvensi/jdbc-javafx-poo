@@ -11,23 +11,24 @@ public class Item implements Serializable{
 	private String descricaoItem;
 	private String codigoBarras;
 	private Double precoVenda;
-	private Double precoCompra;
 	private Integer quantidade;
 	private Date validade;
 	private String corredor;
-	private Fornecedor fornecedor;
+	private FornecedorMarca fornecedorMarca;
+	
+	public Item() {
+	}
 
-	public Item(Integer idItem, String descricaoItem, String codigoBarras, Double precoVenda, Double precoCompra,
-			Integer quantidade, Date validade, String corredor, Fornecedor fornecedor) {
+	public Item(Integer idItem, String descricaoItem, String codigoBarras, Double precoVenda,
+			Integer quantidade, Date validade, String corredor, FornecedorMarca fornecedorMarca) {
 		this.idItem = idItem;
 		this.descricaoItem = descricaoItem;
 		this.codigoBarras = codigoBarras;
 		this.precoVenda = precoVenda;
-		this.precoCompra = precoCompra;
 		this.quantidade = quantidade;
 		this.validade = validade;
 		this.corredor = corredor;
-		this.fornecedor = fornecedor;
+		this.fornecedorMarca = fornecedorMarca;
 	}
 
 	public Integer getIdItem() {
@@ -62,13 +63,6 @@ public class Item implements Serializable{
 		this.precoVenda = precoVenda;
 	}
 
-	public Double getPrecoCompra() {
-		return precoCompra;
-	}
-
-	public void setPrecoCompra(Double precoCompra) {
-		this.precoCompra = precoCompra;
-	}
 
 	public Integer getQuantidade() {
 		return quantidade;
@@ -94,19 +88,19 @@ public class Item implements Serializable{
 		this.corredor = corredor;
 	}
 
-	public Fornecedor getFornecedor() {
-		return fornecedor;
+	public FornecedorMarca getFornecedorMarca() {
+		return fornecedorMarca;
 	}
 
-	public void setFornecedor(Fornecedor fornecedor) {
-		this.fornecedor = fornecedor;
+	public void setFornecedorMarca(FornecedorMarca fornecedorMarca) {
+		this.fornecedorMarca = fornecedorMarca;
 	}
 
 	@Override
 	public String toString() {
 		return "Item [idItem=" + idItem + ", descricaoItem=" + descricaoItem + ", codigoBarras=" + codigoBarras
-				+ ", precoVenda=" + precoVenda + ", precoCompra=" + precoCompra + ", quantidade=" + quantidade
-				+ ", validade=" + validade + ", corredor=" + corredor + ", fornecedor=" + fornecedor + "]";
+				+ ", precoVenda=" + precoVenda + ", quantidade=" + quantidade + ", validade=" + validade 
+				+ ", corredor=" + corredor + ", fornecedorMarca=" + fornecedorMarca + "]";
 	}
 
 }

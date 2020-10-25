@@ -6,6 +6,9 @@ public class ItemVenda {
 	private Item item;
 	private Venda venda;
 
+	public ItemVenda() {
+	}
+	
 	public ItemVenda(Integer idItemVenda, Item item, Venda venda) {
 		this.idItemVenda = idItemVenda;
 		this.item = item;

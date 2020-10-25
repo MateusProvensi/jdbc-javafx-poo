@@ -10,6 +10,9 @@ public class FornecedorMarca implements Serializable {
 	private Fornecedor fornecedor;
 	private Marca marca;
 
+	public FornecedorMarca() {
+	}
+	
 	public FornecedorMarca(Integer idFornecedorMarca, Fornecedor fornecedor, Marca marca) {
 		this.idFornecedorMarca = idFornecedorMarca;
 		this.fornecedor = fornecedor;
