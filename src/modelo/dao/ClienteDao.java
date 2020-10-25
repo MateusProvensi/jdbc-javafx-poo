@@ -10,6 +10,8 @@ public interface ClienteDao {
 	
 	void update(Cliente obj);
 	
+	void deletePeloId(Integer id);
+	
 	List<Cliente> acharTodos();
 	
 }

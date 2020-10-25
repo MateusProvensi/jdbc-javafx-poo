@@ -112,8 +112,8 @@ public class ClienteDaoJDBC implements ClienteDao{
 			rs = st.executeQuery();
 			
 			while (rs.next()) {
-				// INSTANCIAR OS OBJETOS
-				// ADC NA LISTA
+				Cliente obj = InstanciacaoEntidades.instanciarCliente(rs);
+				lista.add(obj);
 			}		
 			return lista;
 			
@@ -123,5 +123,30 @@ public class ClienteDaoJDBC implements ClienteDao{
 			BD.fecharResultSet(rs);
 			BD.fecharStatement(st);
 		}		
+	}
+
+	@Override
+	public void deletePeloId(Integer id) {
+		
+		PreparedStatement st = null;
+		
+		try {
+			
+			st = conn.prepareStatement(
+					"DELETE FROM cliente "
+					+ "WHERE "
+					+ "id_cliente = ?"
+					);
+			
+			st.setInt(1, id);
+			
+			st.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new BDException(e.getMessage());
+		} finally {
+			BD.fecharStatement(st);
+		}
+		
 	}
 }

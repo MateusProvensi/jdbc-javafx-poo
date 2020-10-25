@@ -6,12 +6,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bd.BD;
 import bd.BDException;
 import modelo.dao.FornecedorMarcaDao;
+import modelo.entidades.Empresa;
+import modelo.entidades.Fornecedor;
 import modelo.entidades.FornecedorMarca;
+import modelo.entidades.Marca;
 
 public class FornecedorMarcaDaoJDBC implements FornecedorMarcaDao{
 
@@ -102,12 +107,33 @@ public class FornecedorMarcaDaoJDBC implements FornecedorMarcaDao{
 					+ "FROM "
 					+ "fornecedor_marca"
 					);
-			
+			//JUNTAR AS 3 TABELAS
 			rs = st.executeQuery();
 			
+			Map<Integer, Fornecedor> mapFornecedor = new HashMap<>();
+			Map<Integer, Marca> mapMarca = new HashMap<>();
+			Map<Integer, Empresa> mapEmpresa = new HashMap<>();
+			
 			while (rs.next()) {
-				// INSTANCIAR A ENTIDADE
-				// ADICIONAR NA LISTA
+				
+				Empresa empresa = mapEmpresa.get(rs.getInt("id_empresa"));
+				Fornecedor fornecedor = mapFornecedor.get(rs.getInt("id_fornecedor"));
+				Marca marca = mapMarca.get(rs.getInt("id_marca"));
+					
+				if (empresa == null) {
+					empresa = InstanciacaoEntidades.instanciarEmpresa(rs);
+					mapEmpresa.put(rs.getInt("id_empresa"), empresa);
+				}
+				if (fornecedor == null) {
+					fornecedor = InstanciacaoEntidades.instanciarFornecedor(rs, empresa);
+					mapFornecedor.put(rs.getInt("id_fornecedor"), fornecedor);
+				}
+				if (marca == null) {
+					marca = InstanciacaoEntidades.instanciarMarca(rs, empresa);
+				}
+				
+				FornecedorMarca obj = InstanciacaoEntidades.instanciarFornecedorMarca(rs, fornecedor, marca);
+				lista.add(obj);
 			}
 			return lista;
 			

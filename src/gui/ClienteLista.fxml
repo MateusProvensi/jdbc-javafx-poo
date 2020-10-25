@@ -20,17 +20,17 @@
          </VBox.margin></Label>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
-          <Button mnemonicParsing="false" text="Novo" />
+          <Button fx:id="btNovo" mnemonicParsing="false" onAction="#onBtNovoAcao" text="Novo" />
         </items>
       </ToolBar>
-      <TableView prefHeight="240.0" prefWidth="623.0">
+      <TableView fx:id="tableViewCliente" prefHeight="240.0" prefWidth="623.0">
         <columns>
-          <TableColumn prefWidth="65.0" text="Id" />
-          <TableColumn prefWidth="137.0" text="Nome" />
-            <TableColumn prefWidth="123.0" text="Sobrenome" />
-            <TableColumn minWidth="0.0" prefWidth="123.0" text="CPF" />
-            <TableColumn prefWidth="100.0" text="RG" />
-            <TableColumn prefWidth="118.0" text="Telefone" />
+          <TableColumn fx:id="tableColumnId" prefWidth="65.0" text="Id" />
+          <TableColumn fx:id="tableColumnNome" prefWidth="137.0" text="Nome" />
+            <TableColumn fx:id="tableColumnSobrenome" prefWidth="123.0" text="Sobrenome" />
+            <TableColumn fx:id="tableColumnCpf" minWidth="0.0" prefWidth="123.0" text="CPF" />
+            <TableColumn fx:id="tableColumnRg" prefWidth="100.0" text="RG" />
+            <TableColumn fx:id="tableColumnTelefone" prefWidth="118.0" text="Telefone" />
             <TableColumn prefWidth="79.0" />
             <TableColumn prefWidth="75.0" />
         </columns>

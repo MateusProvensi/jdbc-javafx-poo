@@ -96,8 +96,8 @@ public class EmpresaDaoJDBC implements EmpresaDao{
 			rs = st.executeQuery();
 			
 			while (rs.next()) {
-				// INSTANCIAR O OBJETO
-				// ADICIONAR NA LISTA
+				Empresa obj = InstanciacaoEntidades.instanciarEmpresa(rs);
+				lista.add(obj);
 			}
 			return lista;
 			

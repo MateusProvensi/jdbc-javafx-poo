@@ -22,5 +22,7 @@ public class ClienteServico {
 		}
 	}
 	
-	
+	public void delete(Cliente obj) {
+		dao.deletePeloId(obj.getIdCliente());
+	}
 }

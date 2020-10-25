@@ -6,11 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bd.BD;
 import bd.BDException;
 import modelo.dao.FornecedorDao;
+import modelo.entidades.Empresa;
 import modelo.entidades.Fornecedor;
 
 public class FornecedorDaoJDBC implements FornecedorDao{
@@ -106,18 +109,35 @@ public class FornecedorDaoJDBC implements FornecedorDao{
 		List<Fornecedor> lista = new ArrayList<>();
 		
 		try {
-			
+			/*
 			st = conn.prepareStatement(
 					"SELECT * "
 					+ "FROM "
 					+ "fornecedor"
 					);
+			Caso o código abaixo não de certo tem esse acima para "BACKUP"
+			*/
 			
+			st = conn.prepareStatement(
+					"SELECT fornecedor.*, empresa.* "
+					+ "FROM fornecedor INNER JOIN empresa "
+					+ "WHERE fornecedor.fk_id_empresa = empresa.id_empresa"
+					);
 			rs = st.executeQuery();
 			
+			Map<Integer, Empresa> map = new HashMap<>();
+			
 			while (rs.next()) {
-				// INSTANCIAR OBJETO
-				// ADICIONAR NA LISTA
+				
+				Empresa empresa = map.get(rs.getInt("id_empresa"));
+				
+				if (empresa == null) {
+					empresa = InstanciacaoEntidades.instanciarEmpresa(rs);
+					map.put(rs.getInt("id_empresa"), empresa);
+				}
+				
+				Fornecedor obj = InstanciacaoEntidades.instanciarFornecedor(rs, empresa);
+				lista.add(obj);
 			}
 			return lista;
 			

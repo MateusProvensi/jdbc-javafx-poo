@@ -90,8 +90,20 @@ public class InstanciacaoEntidades {
 	
 	public static ItemVenda instanciarItemVenda(ResultSet rs, Item item, Venda venda) throws SQLException {
 		ItemVenda obj = new ItemVenda();
+		obj.setIdItemVenda(rs.getInt("id_item_venda"));
+		obj.setItem(item);
+		obj.setVenda(venda);
 		
 		return obj;
 	}
 	
+	public static Marca instanciarMarca(ResultSet rs, Empresa empresa) throws SQLException{
+		Marca obj = new Marca();
+		obj.setIdMarca(rs.getInt("id_marca"));
+		obj.setNome(rs.getString("nome_marca"));
+		obj.setCnpj(rs.getString("id_cnpj"));
+		obj.setEmpresa(empresa);
+		
+		return obj;
+	}
 }
