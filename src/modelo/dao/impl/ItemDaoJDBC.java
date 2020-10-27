@@ -6,12 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bd.BD;
 import bd.BDException;
 import modelo.dao.ItemDao;
+import modelo.entidades.Empresa;
+import modelo.entidades.Fornecedor;
+import modelo.entidades.FornecedorMarca;
 import modelo.entidades.Item;
+import modelo.entidades.Marca;
 
 public class ItemDaoJDBC implements ItemDao{
 
@@ -107,18 +113,59 @@ public class ItemDaoJDBC implements ItemDao{
 		List<Item> lista = new ArrayList<>();
 		
 		try {
-			
+			/*
 			st = conn.prepareStatement(
 					"SELECT * "
 					+ "FROM "
 					+ "item"
 					);
+			*/
+			
+			st = conn.prepareStatement(
+					"SELECT DISTINCT item.*, fornecedor_marca.*, fornecedor.*, marca.*, empresa.* "
+					+ "FROM item "
+					+ "INNER JOIN empresa, marca, fornecedor_marca , fornecedor "
+					+ "WHERE item.fk_id_fornecedor_marca = fornecedor_marca.id_fornecedor_marca "
+					+ "AND fornecedor.id_fornecedor = fornecedor_marca.fk_id_fornecedor "
+					+ "AND marca.id_marca = fornecedor_marca.fk_id_marca "
+					+ "AND fornecedor.fk_id_empresa = empresa.id_empresa "
+					+ "AND marca.fk_id_empresa = id_empresa "
+					+ "ORDER BY item.id_item;"
+					);
 			
 			rs = st.executeQuery();
 			
+			Map<Integer, FornecedorMarca> mapFornecedorMarca = new HashMap<>();
+			Map<Integer, Fornecedor> mapFornecedor = new HashMap<>();
+			Map<Integer, Marca> mapMarca = new HashMap<>();
+			Map<Integer, Empresa> mapEmpresa = new HashMap<>();
+			
 			while (rs.next()) {
-				// INSTANCIAR O OBJETO
-				// ADC NA LISTA
+				
+				Empresa empresa = mapEmpresa.get(rs.getInt("id_empresa"));
+				Fornecedor fornecedor = mapFornecedor.get(rs.getInt("id_fornecedor"));
+				Marca marca = mapMarca.get(rs.getInt("id_marca"));
+				FornecedorMarca fornecedorMarca = mapFornecedorMarca.get(rs.getInt("id_fornecedor_marca"));
+				
+				if (empresa == null) {
+					empresa = InstanciacaoEntidades.instanciarEmpresa(rs);
+					mapEmpresa.put(rs.getInt("id_empresa"), empresa);
+				}
+				if (fornecedor == null) {
+					fornecedor = InstanciacaoEntidades.instanciarFornecedor(rs, empresa);
+					mapFornecedor.put(rs.getInt("id_fornecedor"), fornecedor);
+				}
+				if (marca == null) {
+					marca = InstanciacaoEntidades.instanciarMarca(rs, empresa);
+					mapMarca.put(rs.getInt("id_marca"), marca);
+				}
+				if (fornecedorMarca == null) {
+					fornecedorMarca = InstanciacaoEntidades.instanciarFornecedorMarca(rs, fornecedor, marca);
+					mapFornecedorMarca.put(rs.getInt("id_fornecedor_marca"), fornecedorMarca);
+				}
+				
+				Item obj = InstanciacaoEntidades.instanciarItem(rs, fornecedorMarca);
+				lista.add(obj);
 			}
 			return lista;
 		} catch (SQLException e) {

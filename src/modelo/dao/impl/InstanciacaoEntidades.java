@@ -106,4 +106,15 @@ public class InstanciacaoEntidades {
 		
 		return obj;
 	}
+	
+	public static Venda instanciarVenda(ResultSet rs, Funcionario funcionario, Cliente cliente) throws SQLException{
+		Venda obj = new Venda();
+		obj.setIdVenda(rs.getInt("id_venda"));
+		obj.setPrecoTotal(rs.getDouble("preco_total"));
+		obj.setDataHoraVenda(rs.getDate("data_hora_venda"));
+		obj.setCliente(cliente);
+		obj.setFuncionario(funcionario);
+		
+		return obj;
+	}
 }

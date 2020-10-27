@@ -102,12 +102,25 @@ public class FornecedorMarcaDaoJDBC implements FornecedorMarcaDao{
 		
 		try {
 			
+			/*
 			st = conn.prepareStatement(
 					"SELECT * "
 					+ "FROM "
 					+ "fornecedor_marca"
 					);
-			//JUNTAR AS 3 TABELAS
+			*/ //JUNTAR AS 3 TABELAS
+			
+			st = conn.prepareStatement(
+					"SELECT DISTINCT fornecedor_marca.*, fornecedor.*, marca.*, empresa.* "
+					+ "FROM fornecedor "
+					+ "INNER JOIN empresa, marca, fornecedor_marca "
+					+ "WHERE fornecedor.id_fornecedor = fornecedor_marca.fk_id_fornecedor "
+					+ "AND marca.id_marca = fornecedor_marca.fk_id_marca "
+					+ "AND fornecedor.fk_id_empresa = empresa.id_empresa "
+					+ "AND marca.fk_id_empresa = id_empresa "
+					+ "ORDER BY fornecedor_marca.id_fornecedor_marca"
+					);
+			
 			rs = st.executeQuery();
 			
 			Map<Integer, Fornecedor> mapFornecedor = new HashMap<>();

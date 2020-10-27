@@ -112,8 +112,8 @@ public class FuncionarioDaoJDBC implements FuncionarioDao{
 			rs = st.executeQuery();
 			
 			while (rs.next()) {
-				// INSTANCIAR O OBJETO
-				// ADC NA LISTA
+				Funcionario obj = InstanciacaoEntidades.instanciarFuncionario(rs);
+				lista.add(obj);
 			}
 			return lista;
 		} catch (SQLException e) {
