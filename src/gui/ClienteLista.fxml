@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="407.0" prefWidth="832.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ClienteListaController">
+<VBox prefHeight="396.0" prefWidth="848.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ClienteListaController">
    <children>
       <Label text="Registrar Cliente">
          <font>
@@ -31,8 +31,8 @@
             <TableColumn fx:id="tableColumnCpf" minWidth="0.0" prefWidth="123.0" text="CPF" />
             <TableColumn fx:id="tableColumnRg" prefWidth="100.0" text="RG" />
             <TableColumn fx:id="tableColumnTelefone" prefWidth="118.0" text="Telefone" />
-            <TableColumn prefWidth="79.0" />
-            <TableColumn prefWidth="75.0" />
+            <TableColumn fx:id="tableColumnEDIT" prefWidth="79.0" />
+            <TableColumn fx:id="tableColumnREMOVE" prefWidth="75.0" />
         </columns>
       </TableView>
    </children>

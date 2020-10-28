@@ -10,6 +10,8 @@ public interface ItemDao {
 	
 	void update(Item obj);
 	
+	void deletePeloId(Integer id);
+	
 	List<Item> acharTodos();
 	
 }

@@ -148,4 +148,29 @@ public class FornecedorDaoJDBC implements FornecedorDao{
 			BD.fecharStatement(st);
 		}
 	}
+
+	@Override
+	public void deletePeloId(Integer id) {
+		
+		PreparedStatement st = null;
+		
+		try {
+			
+			st = conn.prepareStatement(
+					"DELETE FROM fornecedor "
+					+ "WHERE "
+					+ "id_fornecedor = ?"
+					);
+			
+			st.setInt(1, id);
+			
+			st.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new BDException(e.getMessage());
+		} finally {
+			BD.fecharStatement(st);
+		}
+		
+	}
 }

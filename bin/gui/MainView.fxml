@@ -4,33 +4,38 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="355.0" prefWidth="533.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainViewController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="708.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainViewController">
    <content>
-      <MenuBar prefHeight="26.0" prefWidth="499.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="Registrar">
-            <items>
-              <MenuItem fx:id="menuItemRegistrarCliente" mnemonicParsing="false" onAction="#onMenuItemRegistrarClienteAcao" text="Cliente" />
-                  <MenuItem fx:id="menuItemRegistrarEmpresa" mnemonicParsing="false" onAction="#onMenuItemRegistrarEmpresaAcao" text="Empresa" />
-                  <MenuItem fx:id="menuItemRegistrarFornecedor" mnemonicParsing="false" onAction="#onMenuItemRegistrarFornecedorAcao" text="Fornecedor" />
-                  <MenuItem fx:id="menuItemRegistrarFornecedorMarca" mnemonicParsing="false" onAction="#onMenuItemRegistrarFornecedorMarcaAcao" text="Fornecedor Marca" />
-                  <MenuItem fx:id="menuItemRegistrarFuncionario" mnemonicParsing="false" onAction="#onMenuItemRegistrarFuncionario" text="Funcionario" />
-                  <MenuItem fx:id="menuItemRegistrarItem" mnemonicParsing="false" onAction="#onMenuItemRegistrarItemAcao" text="Item" />
-                  <MenuItem fx:id="menuItemRegistrarMarca" mnemonicParsing="false" onAction="#onMenuItemRegistrarMarcaAcao" text="Marca" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Venda">
-            <items>
-              <MenuItem fx:id="menuItemVendaFazerVenda" mnemonicParsing="false" onAction="#onMenuItemVendaFazerVendaAcao" text="Fazer Venda" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Ajuda">
-            <items>
-              <MenuItem fx:id="menuItemAjudaAjuda" mnemonicParsing="false" onAction="#onMenuItemAjudaAjudaAcao" text="Ajuda" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+      <VBox prefHeight="400.0" prefWidth="637.0">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="Registrar">
+                     <items>
+                        <MenuItem fx:id="menuItemRegistrarCliente" mnemonicParsing="false" onAction="#onMenuItemRegistrarClienteAcao" text="Cliente" />
+                        <MenuItem fx:id="menuItemRegistrarEmpresa" mnemonicParsing="false" onAction="#onMenuItemRegistrarEmpresaAcao" text="Empresa" />
+                        <MenuItem fx:id="menuItemRegistrarFornecedor" mnemonicParsing="false" onAction="#onMenuItemRegistrarFornecedorAcao" text="Fornecedor" />
+                        <MenuItem fx:id="menuItemRegistrarFornecedorMarca" mnemonicParsing="false" onAction="#onMenuItemRegistrarFornecedorMarcaAcao" text="FornecedorMarca" />
+                        <MenuItem fx:id="menuItemRegistrarFuncionario" mnemonicParsing="false" onAction="#onMenuItemRegistrarFuncionario" text="Funcionario" />
+                        <MenuItem fx:id="menuItemRegistrarItem" mnemonicParsing="false" onAction="#onMenuItemRegistrarItemAcao" text="Item" />
+                        <MenuItem fx:id="menuItemRegistrarMarca" mnemonicParsing="false" onAction="#onMenuItemRegistrarMarcaAcao" text="Marca" />
+                     </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Venda">
+                  <items>
+                    <MenuItem fx:id="menuItemVendaFazerVenda" mnemonicParsing="false" onAction="#onMenuItemVendaFazerVendaAcao" text="Fazer Venda" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Ajuda">
+                  <items>
+                    <MenuItem fx:id="menuItemAjudaAjuda" mnemonicParsing="false" onAction="#onMenuItemAjudaAjudaAcao" text="Ajuda" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </children>
+      </VBox>
    </content>
 </ScrollPane>

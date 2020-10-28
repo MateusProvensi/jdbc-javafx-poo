@@ -10,6 +10,8 @@ public interface FornecedorMarcaDao {
 	
 	void update(FornecedorMarca obj);
 	
+	void deletePeloId(Integer id);
+	
 	List<FornecedorMarca> acharTodos();
 	
 }

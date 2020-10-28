@@ -10,6 +10,8 @@ public interface MarcaDao {
 	
 	void update(Marca obj);
 	
+	void deletePeloId(Integer id);
+	
 	List<Marca> acharTodos();
 	
 }

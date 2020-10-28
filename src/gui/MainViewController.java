@@ -16,6 +16,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import modelo.servicos.ClienteServico;
 
 public class MainViewController implements Initializable{
 
@@ -48,7 +49,10 @@ public class MainViewController implements Initializable{
 	
 	@FXML
 	public void onMenuItemRegistrarClienteAcao(){
-		System.out.println("onMenuItemRegistrarClienteAcao");
+		carregarView("/gui/ClienteLista.fxml", (ClienteListaController controller) -> {
+			controller.setClienteServico(new ClienteServico());
+			controller.updateVisualizacaoTabela();
+		});
 	}
 	
 	@FXML
@@ -93,7 +97,6 @@ public class MainViewController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -104,7 +107,7 @@ public class MainViewController implements Initializable{
 			VBox novaVBox = loader.load();
 			
 			Scene mainScene = Main.getMainScene();
-			VBox mainVbox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
+			VBox mainVbox = (VBox) ((ScrollPane)mainScene.getRoot()).getContent();
 			
 			Node mainMenu = mainVbox.getChildren().get(0);
 			mainVbox.getChildren().clear();

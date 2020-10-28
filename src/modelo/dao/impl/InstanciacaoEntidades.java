@@ -101,7 +101,7 @@ public class InstanciacaoEntidades {
 		Marca obj = new Marca();
 		obj.setIdMarca(rs.getInt("id_marca"));
 		obj.setNome(rs.getString("nome_marca"));
-		obj.setCnpj(rs.getString("id_cnpj"));
+		obj.setCnpj(rs.getString("cnpj_marca"));
 		obj.setEmpresa(empresa);
 		
 		return obj;

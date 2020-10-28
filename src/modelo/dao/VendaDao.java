@@ -10,6 +10,8 @@ public interface VendaDao {
 	
 	void update(Venda obj);
 	
+	void deletePeloId(Integer id);
+	
 	List<Venda> acharTodos();
 	
 }

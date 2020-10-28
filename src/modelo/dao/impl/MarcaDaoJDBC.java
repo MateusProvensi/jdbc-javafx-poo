@@ -131,5 +131,29 @@ public class MarcaDaoJDBC implements MarcaDao{
 			BD.fecharResultSet(rs);
 			BD.fecharStatement(st);
 		}		
+	}
+
+	@Override
+	public void deletePeloId(Integer id) {
+		PreparedStatement st = null;
+		
+		try {
+			
+			st = conn.prepareStatement(
+					"DELETE FROM marca "
+					+ "WHERE "
+					+ "id_marca = ?"
+					);
+			
+			st.setInt(1, id);
+			
+			st.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new BDException(e.getMessage());
+		} finally {
+			BD.fecharStatement(st);
+		}
+		
 	}	
 }

@@ -10,6 +10,8 @@ public interface FuncionarioDao {
 	
 	void update(Funcionario obj);
 	
+	void deletePeloId(Integer id);
+	
 	List<Funcionario> acharTodos();
 	
 }
