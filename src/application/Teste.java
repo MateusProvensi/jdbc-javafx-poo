@@ -19,6 +19,9 @@ public class Teste {
 			System.out.println(cliente);
 		}
 		
+		Cliente cliente = new Cliente(5, "Hugo", "Assunçao", "93624826905", "446916547", "(46)293263618");
+		clienteDao.update(cliente);
+		
 		System.out.println();
 		
 		ItemVendaDao itemVendaDao = DaoCriacao.criarItemVendaDao();

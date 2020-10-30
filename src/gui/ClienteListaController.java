@@ -153,7 +153,7 @@ public class ClienteListaController implements Initializable, DadosMudancaOuvint
 				}
 				setGraphic(button);
 				button.setOnAction(
-						event -> criarFormularioCliente(obj, "/gui/DepartmentForm.fxml", Utils.stageAtual(event)));
+						event -> criarFormularioCliente(obj, "/gui/ClienteFormulario.fxml", Utils.stageAtual(event)));
 			}
 		});
 	}

@@ -3,7 +3,9 @@ package gui;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import bd.BDException;
 import gui.ouvintes.DadosMudancaOuvintes;
@@ -15,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import modelo.entidades.Cliente;
 import modelo.exceptions.ValidacaoException;
@@ -45,6 +48,21 @@ public class ClienteFormularioController implements Initializable{
 	
 	@FXML
 	private TextField txtTelefone;
+	
+	@FXML
+	private Label txtNomeErro; 
+	
+	@FXML
+	private Label txtSobrenomeErro; 
+	
+	@FXML
+	private Label txtCpfErro; 
+	
+	@FXML
+	private Label txtRgErro; 
+	
+	@FXML
+	private Label txtTelefoneErro; 
 	
 	@FXML
 	private Button btSalvar;
@@ -83,6 +101,8 @@ public class ClienteFormularioController implements Initializable{
 			servico.insertOuUpdate(entidade);
 			notificarOuvintes();
 			Utils.stageAtual(evento).close();
+		}catch (ValidacaoException e) {
+			setMensagensErros(e.getErros());
 		} catch (BDException e) {
 			Alerts.mostrarAlerta("Erro ao salvar o objeto", null, e.getMessage(), AlertType.ERROR);
 		}
@@ -99,8 +119,37 @@ public class ClienteFormularioController implements Initializable{
 		
 		ValidacaoException excecao = new ValidacaoException("Erro de validacao");
 		
-		// VALIDAR OS DADOS DO FORMULARIO POSTERIORMENTE
+		if (txtNome.getText() == null || txtNome.getText().trim().equals("")) {
+			excecao.addErros("nome", "O campo não pode ser vazio");
+		}else {
+			excecao.addErros("nome", "");
+		}
 		
+		if (txtSobrenome.getText() == null || txtSobrenome.getText().trim().equals("")) {
+			excecao.addErros("sobrenome", "O campo não pode ser vazio");
+		}else {
+			excecao.addErros("sobrenome", "");
+		}
+		
+		if (txtCpf.getText() == null || txtCpf.getText().trim().equals("")) {
+			excecao.addErros("cpf", "O campo não pode ser vazio");
+		} else if (txtCpf.getText().trim().length() != 11) {
+			excecao.addErros("cpf", "O campo deve ter 11 caracteres");
+		} else {
+			excecao.addErros("cpf", "");
+		}
+		
+		if (txtRg.getText() == null || txtRg.getText().trim().equals("")) {
+			excecao.addErros("rg", "O campo não pode ser vazio");
+		}else {
+			excecao.addErros("rg", "");
+		}
+		
+		if (txtTelefone.getText() == null || txtTelefone.getText().trim().equals("")) {
+			excecao.addErros("telefone", "O campo não pode ser vazio");
+		}else {
+			excecao.addErros("telefone", "");
+		}
 		obj.setIdCliente(Utils.transformarInteger(txtId.getText()));
 		obj.setNome(txtNome.getText());
 		obj.setSobrenome(txtSobrenome.getText());
@@ -108,7 +157,9 @@ public class ClienteFormularioController implements Initializable{
 		obj.setRg(txtRg.getText());
 		obj.setTelefone(txtTelefone.getText());
 		
-		if (excecao.getErros().size() > 0) {
+		Boolean temErrosVar = temErros(excecao.getErros());
+		
+		if (temErrosVar == true) {
 			throw excecao;
 		}
 		
@@ -124,7 +175,7 @@ public class ClienteFormularioController implements Initializable{
 		Constraints.setTextFieldInteger(txtId);
 		Constraints.setTextFieldMaxLength(txtNome, 30);
 		Constraints.setTextFieldMaxLength(txtSobrenome, 50);
-		Constraints.setTextFieldMaxLength(txtCpf, 11);
+		Constraints.setTextFieldInteger(txtCpf);
 		Constraints.setTextFieldMaxLength(txtRg, 15);
 		Constraints.setTextFieldMaxLength(txtRg, 16);
 	}
@@ -143,6 +194,51 @@ public class ClienteFormularioController implements Initializable{
 		txtTelefone.setText(entidade.getTelefone());
 	}
 	
-	// CRIAR UM METODO PARA ADICIONAR ERROS E VERIFICAR DEPOIS
+	private void setMensagensErros(Map<String, String> erros) {
+		Set<String> campos = erros.keySet();
+		
+		if (campos.contains("nome")) {
+			txtNomeErro.setText(erros.get("nome"));
+		}
+		if (campos.contains("sobrenome")) {
+			txtSobrenomeErro.setText(erros.get("sobrenome"));
+		}
+		if (campos.contains("cpf")) {
+			txtCpfErro.setText(erros.get("cpf"));
+		}
+		if (campos.contains("rg")) {
+			txtRgErro.setText(erros.get("rg"));
+		}
+		if (campos.contains("telefone")) {
+			txtTelefoneErro.setText(erros.get("telefone"));
+		}
+	}
+	
+	private Boolean temErros(Map<String, String> erros) {
+		Integer quantidade_erros = 0;
+		
+		if (erros.get("nome") != "") {
+			quantidade_erros += 1;
+		}
+		if (erros.get("sobrenome") != "") {
+			quantidade_erros += 1;
+		}
+		if (erros.get("cpf") != "") {
+			quantidade_erros += 1;
+		}
+		if (erros.get("rg") != "") {
+			quantidade_erros += 1;
+		}
+		if (erros.get("telefone") != "") {
+			quantidade_erros += 1;
+		}
+		
+		if (quantidade_erros > 0) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
 	
 }

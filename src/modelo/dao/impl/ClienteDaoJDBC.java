@@ -71,7 +71,7 @@ public class ClienteDaoJDBC implements ClienteDao{
 		try {
 			
 			st = conn.prepareStatement(
-					"UPDATE cliente"
+					"UPDATE cliente "
 					+ "SET nome_cliente = ?, sobrenome_cliente = ?, cpf_cliente = ?, "
 					+ "rg_cliente = ?, telefone_cliente = ? "
 					+ "WHERE "

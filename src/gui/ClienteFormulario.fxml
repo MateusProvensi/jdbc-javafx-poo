@@ -61,6 +61,11 @@
                   <Insets left="50.0" />
                </GridPane.margin>
             </TextField>
+            <Label fx:id="txtNomeErro" prefHeight="17.0" prefWidth="248.0" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="txtSobrenomeErro" prefHeight="17.0" prefWidth="248.0" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="txtCpfErro" prefHeight="17.0" prefWidth="248.0" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="txtRgErro" prefHeight="17.0" prefWidth="248.0" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="txtTelefoneErro" prefHeight="17.0" prefWidth="248.0" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
       </GridPane>
       <Button fx:id="btSalvar" layoutX="73.0" layoutY="283.0" mnemonicParsing="false" onAction="#onBtSalvarAcao" text="Salvar" />
