@@ -105,22 +105,16 @@ public class EmpresaFormularioController implements Initializable{
 		
 		if (txtNome.getText() == null || txtNome.getText().trim().equals("")) {
 			excecao.addErros("nome", "O campo não pode ser vazio");
-		}else {
-			excecao.addErros("nome", "");
 		}
 		
 		if (txtCnpj.getText() == null || txtCnpj.getText().trim().equals("")) {
 			excecao.addErros("cnpj", "O campo não pode ser vazio");
 		} else if (txtCnpj.getText().trim().length() != 14) {
 			excecao.addErros("cnpj", "O campo deve ter 14 caracteres");
-		} else {
-			excecao.addErros("cnpj", "Teste");
 		}
 		
 		if (txtTelefone.getText() == null || txtTelefone.getText().trim().equals("")) {
 			excecao.addErros("telefone", "O campo não pode ser vazio");
-		}else {
-			excecao.addErros("telefone", "");
 		}
 		
 		obj.setIdEmpresa(Utils.transformarInteger(txtId.getText()));
@@ -128,9 +122,7 @@ public class EmpresaFormularioController implements Initializable{
 		obj.setCnpj(txtCnpj.getText());
 		obj.setTelefone(txtTelefone.getText());
 		
-		Boolean temErrosVar = temErros(excecao.getErros());
-		
-		if (temErrosVar) {
+		if (excecao.getErros().size() > 0) {
 			throw excecao;
 		}
 		
@@ -151,7 +143,7 @@ public class EmpresaFormularioController implements Initializable{
 	private void inicializarNodes() {
 		Constraints.setTextFieldInteger(txtId);
 		Constraints.setTextFieldMaxLength(txtNome, 60);
-		Constraints.setTextFieldMaxLength(txtCnpj, 14);
+		Constraints.setTextFieldInteger(txtCnpj);
 		Constraints.setTextFieldMaxLength(txtTelefone, 16);
 	}
 	
@@ -169,35 +161,9 @@ public class EmpresaFormularioController implements Initializable{
 	private void setMensagensErros(Map<String, String> erros) {
 		Set<String> campos = erros.keySet();
 		
-		if (campos.contains("nome")) {
-			txtNomeErro.setText(erros.get("nome"));
-		}
-		if (campos.contains("cnpj")) {
-			txtCnpjErro.setText(erros.get("cnpj"));
-		}
-		if (campos.contains("telefone")) {
-			txtTelefoneErro.setText(erros.get("telefone"));
-		}
-	}
-	
-	private Boolean temErros(Map<String, String> erros) {
-		Integer quantidadeErros = 0;
+		txtNomeErro.setText(campos.contains("nome") ? erros.get("nome") : "");
+		txtCnpjErro.setText(campos.contains("cnpj") ? erros.get("cnpj") : "");
+		txtTelefoneErro.setText(campos.contains("telefone") ? erros.get("telefone") : "");
 		
-		if (erros.get("nome") != "") {
-			quantidadeErros += 1;
-		}
-		if (erros.get("cnpj") != "") {
-			quantidadeErros += 1;
-		}
-		if (erros.get("telefone") != "") {
-			quantidadeErros += 1;
-		}
-		
-		if (quantidadeErros > 0) {
-			return true;
-		} else {
-			return false;
-		}
 	}
-	
 }

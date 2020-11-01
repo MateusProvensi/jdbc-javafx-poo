@@ -15,24 +15,24 @@ import gui.util.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import modelo.entidades.Cliente;
+import javafx.scene.control.Alert.AlertType;
+import modelo.entidades.Funcionario;
 import modelo.exceptions.ValidacaoException;
-import modelo.servicos.ClienteServico;
+import modelo.servicos.FuncionarioServico;
 
-public class ClienteFormularioController implements Initializable{
+public class FuncionarioFormularioController implements Initializable{
 
-	private Cliente entidade;
+	Funcionario entidade;
 	
-	private ClienteServico servico;
+	FuncionarioServico servico;
 	
-	private List<DadosMudancaOuvintes> dadosMudancasOuvintes = new ArrayList<>();
+	List<DadosMudancaOuvintes> dadosMudancasOuvintes = new ArrayList<>();
 	
 	@FXML
-	private TextField txtId;
+	private TextField txtIdFuncionario;
 	
 	@FXML
 	private TextField txtNome;
@@ -44,25 +44,31 @@ public class ClienteFormularioController implements Initializable{
 	private TextField txtCpf;
 	
 	@FXML
-	private TextField txtRg;
+	private TextField txtRG;
 	
 	@FXML
 	private TextField txtTelefone;
 	
 	@FXML
-	private Label txtNomeErro; 
+	private TextField txtNumeroCaixa;
 	
 	@FXML
-	private Label txtSobrenomeErro; 
+	private Label txtNomeErro;
 	
 	@FXML
-	private Label txtCpfErro; 
+	private Label txtSobrenomeErro;
 	
 	@FXML
-	private Label txtRgErro; 
+	private Label txtCpfErro;
 	
 	@FXML
-	private Label txtTelefoneErro; 
+	private Label txtRGErro;
+	
+	@FXML
+	private Label txtTelefoneErro;
+	
+	@FXML
+	private Label txtNumeroCaixaErro;
 	
 	@FXML
 	private Button btSalvar;
@@ -70,82 +76,88 @@ public class ClienteFormularioController implements Initializable{
 	@FXML
 	private Button btCancelar;
 	
-	public void setClienteServico(ClienteServico servico) {
-		this.servico = servico;
-	}
-	
-	public void setCliente(Cliente entidade) {
-		this.entidade = entidade;
-	}
-	
-	public void addOuvintes(DadosMudancaOuvintes ouvinte) {
-		dadosMudancasOuvintes.add(ouvinte);
-	}
-	
-	@Override
-	public void initialize(URL url, ResourceBundle rs) {
-		inicializarNodes();
-	}
-
 	@FXML
-	public void onBtSalvarAcao(ActionEvent evento) {
-		if (servico == null) {
-			throw new IllegalStateException("Servico esta nulo");
-		}
+	public void onBtSalvarAcao(ActionEvent evento){
 		if (entidade == null) {
-			throw new IllegalStateException("Entidade esta nula");
+			throw new IllegalStateException("Entidade esta vazia");
 		}
+		if (servico == null) {
+			throw new IllegalStateException("Servico esta vazio");
+		}
+		
 		try {
-			
 			entidade = getDadosFormulario();
 			servico.insertOuUpdate(entidade);
 			notificarOuvintes();
 			Utils.stageAtual(evento).close();
-		}catch (ValidacaoException e) {
+		} catch (ValidacaoException e) {
 			setMensagensErros(e.getErros());
 		} catch (BDException e) {
 			Alerts.mostrarAlerta("Erro ao salvar o objeto", null, e.getMessage(), AlertType.ERROR);
 		}
 	}
 	
+	@FXML
+	public void onBtCancelarAcao(ActionEvent evento) {
+		Utils.stageAtual(evento).close();
+	}
+	
+	@Override
+	public void initialize(URL url, ResourceBundle rs) {
+		inicializarNodes();
+	}
+	
+	public void setFuncionario(Funcionario entidade) {
+		this.entidade = entidade;
+	}
+	
+	public void setFuncionarioServico(FuncionarioServico servico) {
+		this.servico = servico;
+	}
+	
+	public void addOuvintes(DadosMudancaOuvintes ouvinte) {
+		dadosMudancasOuvintes.add(ouvinte);
+	}
+	
 	private void notificarOuvintes() {
-		for (DadosMudancaOuvintes ouvintes : dadosMudancasOuvintes) {
-			ouvintes.onMudancaDados();
+		for (DadosMudancaOuvintes ouvinte : dadosMudancasOuvintes) {
+			ouvinte.onMudancaDados();
 		}
 	}
 	
-	private Cliente getDadosFormulario() {
-		Cliente obj = new Cliente();
+	private Funcionario getDadosFormulario() {
+		Funcionario obj = new Funcionario();
 		
 		ValidacaoException excecao = new ValidacaoException("Erro de validacao");
 		
 		if (txtNome.getText() == null || txtNome.getText().trim().equals("")) {
 			excecao.addErros("nome", "O campo não pode ser vazio");
-		}
-		
+		}		
 		if (txtSobrenome.getText() == null || txtSobrenome.getText().trim().equals("")) {
 			excecao.addErros("sobrenome", "O campo não pode ser vazio");
-		}
-		
+		}		
 		if (txtCpf.getText() == null || txtCpf.getText().trim().equals("")) {
 			excecao.addErros("cpf", "O campo não pode ser vazio");
 		} else if (txtCpf.getText().trim().length() != 11) {
 			excecao.addErros("cpf", "O campo deve ter 11 caracteres");
-		} 
-		
-		if (txtRg.getText() == null || txtRg.getText().trim().equals("")) {
+		}		
+		if (txtRG.getText() == null || txtRG.getText().trim().equals("")) {
 			excecao.addErros("rg", "O campo não pode ser vazio");
-		}
-		
+		}		
 		if (txtTelefone.getText() == null || txtTelefone.getText().trim().equals("")) {
 			excecao.addErros("telefone", "O campo não pode ser vazio");
 		}
-		obj.setIdCliente(Utils.transformarInteger(txtId.getText()));
+		if (txtNumeroCaixa.getText() == null || txtNumeroCaixa.getText().trim().equals("")) {
+			excecao.addErros("numeroCaixa", "O campo não pode ser vazio");
+		}
+		
+		obj.setIdFuncionario(Utils.transformarInteger(txtIdFuncionario.getText()));
 		obj.setNome(txtNome.getText());
 		obj.setSobrenome(txtSobrenome.getText());
 		obj.setCpf(txtCpf.getText());
-		obj.setRg(txtRg.getText());
+		obj.setRg(txtRG.getText());
 		obj.setTelefone(txtTelefone.getText());
+		obj.setNumeroCaixa(Utils.transformarInteger(txtNumeroCaixa.getText()));
 		
 		if (excecao.getErros().size() > 0) {
 			throw excecao;
@@ -153,33 +165,29 @@ public class ClienteFormularioController implements Initializable{
 		
 		return obj;
 	}
-	
-	@FXML
-	public void onBtCancelarAction(ActionEvent evento) {
-		Utils.stageAtual(evento).close();
-	}
-	
+
 	private void inicializarNodes() {
-		Constraints.setTextFieldInteger(txtId);
-		Constraints.setTextFieldMaxLength(txtNome, 30);
+		Constraints.setTextFieldInteger(txtIdFuncionario);
+		Constraints.setTextFieldMaxLength(txtNome, 30); 
 		Constraints.setTextFieldMaxLength(txtSobrenome, 50);
 		Constraints.setTextFieldInteger(txtCpf);
-		Constraints.setTextFieldInteger(txtRg);
-		Constraints.setTextFieldMaxLength(txtRg, 16);
+		Constraints.setTextFieldInteger(txtRG);
+		Constraints.setTextFieldMaxLength(txtTelefone, 16);
+		Constraints.setTextFieldInteger(txtNumeroCaixa);
 	}
 	
 	public void updateDadosFormulario() {
-		
 		if (entidade == null) {
-			throw new IllegalStateException("Entidade esta nulo");
+			throw new IllegalStateException("Entidade esta vazia");
 		}
 		
-		txtId.setText(String.valueOf(entidade.getIdCliente()));
+		txtIdFuncionario.setText(String.valueOf(entidade.getIdFuncionario()));
 		txtNome.setText(entidade.getNome());
 		txtSobrenome.setText(entidade.getSobrenome());
-		txtCpf.setText(entidade.getCpf());
-		txtRg.setText(entidade.getRg());
+		txtCpf.setText(entidade.getSobrenome());
+		txtRG.setText(entidade.getRg());
 		txtTelefone.setText(entidade.getTelefone());
+		txtNumeroCaixa.setText(String.valueOf(entidade.getNumeroCaixa()));
 	}
 	
 	private void setMensagensErros(Map<String, String> erros) {
@@ -188,8 +196,10 @@ public class ClienteFormularioController implements Initializable{
 		txtNomeErro.setText(campos.contains("nome") ? erros.get("nome") : "");
 		txtSobrenomeErro.setText(campos.contains("sobrenome") ? erros.get("sobrenome") : "");
 		txtCpfErro.setText(campos.contains("cpf") ? erros.get("cpf") : "");
-		txtRgErro.setText(campos.contains("rg") ? erros.get("rg") : "");
+		txtRGErro.setText(campos.contains("rg") ? erros.get("rg") : "");
 		txtTelefoneErro.setText(campos.contains("telefone") ? erros.get("telefone") : "");
+		txtNumeroCaixaErro.setText(campos.contains("numeroCaixa") ? erros.get("numeroCaixa") : "");
 		
 	}
+	
 }
