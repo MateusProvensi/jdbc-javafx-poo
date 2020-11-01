@@ -15,54 +15,42 @@ import gui.util.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import modelo.entidades.Cliente;
+import javafx.scene.control.Alert.AlertType;
+import modelo.entidades.Empresa;
 import modelo.exceptions.ValidacaoException;
-import modelo.servicos.ClienteServico;
+import modelo.servicos.EmpresaServico;
 
-public class ClienteFormularioController implements Initializable{
+public class EmpresaFormularioController implements Initializable{
 
-	private Cliente entidade;
+	private Empresa entidade;
 	
-	private ClienteServico servico;
+	private EmpresaServico servico;
 	
-	private List<DadosMudancaOuvintes> dadosMudancasOuvintes = new ArrayList<>();
+	private List<DadosMudancaOuvintes> dadosMudancasOuvintes = new ArrayList<>();	
 	
 	@FXML
 	private TextField txtId;
 	
-	@FXML
+	@FXML 
 	private TextField txtNome;
 	
 	@FXML
-	private TextField txtSobrenome;
-	
-	@FXML
-	private TextField txtCpf;
-	
-	@FXML
-	private TextField txtRg;
+	private TextField txtCnpj;
 	
 	@FXML
 	private TextField txtTelefone;
 	
 	@FXML
-	private Label txtNomeErro; 
+	private Label txtNomeErro;
 	
 	@FXML
-	private Label txtSobrenomeErro; 
+	private Label txtCnpjErro;
 	
 	@FXML
-	private Label txtCpfErro; 
-	
-	@FXML
-	private Label txtRgErro; 
-	
-	@FXML
-	private Label txtTelefoneErro; 
+	private Label txtTelefoneErro;
 	
 	@FXML
 	private Button btSalvar;
@@ -70,11 +58,11 @@ public class ClienteFormularioController implements Initializable{
 	@FXML
 	private Button btCancelar;
 	
-	public void setClienteServico(ClienteServico servico) {
+	public void setEmpresaServico(EmpresaServico servico) {
 		this.servico = servico;
 	}
 	
-	public void setCliente(Cliente entidade) {
+	public void setEmpresa(Empresa entidade) {
 		this.entidade = entidade;
 	}
 	
@@ -83,17 +71,17 @@ public class ClienteFormularioController implements Initializable{
 	}
 	
 	@Override
-	public void initialize(URL url, ResourceBundle rs) {
+	public void initialize(URL arg0, ResourceBundle arg1) {
 		inicializarNodes();
 	}
-
+	
 	@FXML
 	public void onBtSalvarAcao(ActionEvent evento) {
 		if (servico == null) {
 			throw new IllegalStateException("Servico esta nulo");
 		}
 		if (entidade == null) {
-			throw new IllegalStateException("Entidade esta nula");
+			throw new IllegalStateException("Entidade esta nulo");
 		}
 		try {
 			
@@ -101,21 +89,17 @@ public class ClienteFormularioController implements Initializable{
 			servico.insertOuUpdate(entidade);
 			notificarOuvintes();
 			Utils.stageAtual(evento).close();
-		}catch (ValidacaoException e) {
+			
+		} catch (ValidacaoException e) {
 			setMensagensErros(e.getErros());
 		} catch (BDException e) {
 			Alerts.mostrarAlerta("Erro ao salvar o objeto", null, e.getMessage(), AlertType.ERROR);
 		}
 	}
-	
-	private void notificarOuvintes() {
-		for (DadosMudancaOuvintes ouvintes : dadosMudancasOuvintes) {
-			ouvintes.onMudancaDados();
-		}
-	}
-	
-	private Cliente getDadosFormulario() {
-		Cliente obj = new Cliente();
+
+	private Empresa getDadosFormulario() {
+		
+		Empresa obj = new Empresa();
 		
 		ValidacaoException excecao = new ValidacaoException("Erro de validacao");
 		
@@ -125,24 +109,12 @@ public class ClienteFormularioController implements Initializable{
 			excecao.addErros("nome", "");
 		}
 		
-		if (txtSobrenome.getText() == null || txtSobrenome.getText().trim().equals("")) {
-			excecao.addErros("sobrenome", "O campo não pode ser vazio");
-		}else {
-			excecao.addErros("sobrenome", "");
-		}
-		
-		if (txtCpf.getText() == null || txtCpf.getText().trim().equals("")) {
-			excecao.addErros("cpf", "O campo não pode ser vazio");
-		} else if (txtCpf.getText().trim().length() != 11) {
-			excecao.addErros("cpf", "O campo deve ter 11 caracteres");
+		if (txtCnpj.getText() == null || txtCnpj.getText().trim().equals("")) {
+			excecao.addErros("cnpj", "O campo não pode ser vazio");
+		} else if (txtCnpj.getText().trim().length() != 14) {
+			excecao.addErros("cnpj", "O campo deve ter 14 caracteres");
 		} else {
-			excecao.addErros("cpf", "");
-		}
-		
-		if (txtRg.getText() == null || txtRg.getText().trim().equals("")) {
-			excecao.addErros("rg", "O campo não pode ser vazio");
-		}else {
-			excecao.addErros("rg", "");
+			excecao.addErros("cnpj", "Teste");
 		}
 		
 		if (txtTelefone.getText() == null || txtTelefone.getText().trim().equals("")) {
@@ -150,11 +122,10 @@ public class ClienteFormularioController implements Initializable{
 		}else {
 			excecao.addErros("telefone", "");
 		}
-		obj.setIdCliente(Utils.transformarInteger(txtId.getText()));
+		
+		obj.setIdEmpresa(Utils.transformarInteger(txtId.getText()));
 		obj.setNome(txtNome.getText());
-		obj.setSobrenome(txtSobrenome.getText());
-		obj.setCpf(txtCpf.getText());
-		obj.setRg(txtRg.getText());
+		obj.setCnpj(txtCnpj.getText());
 		obj.setTelefone(txtTelefone.getText());
 		
 		Boolean temErrosVar = temErros(excecao.getErros());
@@ -165,32 +136,33 @@ public class ClienteFormularioController implements Initializable{
 		
 		return obj;
 	}
+
+	private void notificarOuvintes() {
+		for (DadosMudancaOuvintes ouvintes : dadosMudancasOuvintes) {
+			ouvintes.onMudancaDados();
+		}		
+	}
 	
 	@FXML
-	public void onBtCancelarAction(ActionEvent evento) {
+	public void onBtCancelarAcao(ActionEvent evento) {
 		Utils.stageAtual(evento).close();
 	}
 	
 	private void inicializarNodes() {
 		Constraints.setTextFieldInteger(txtId);
-		Constraints.setTextFieldMaxLength(txtNome, 30);
-		Constraints.setTextFieldMaxLength(txtSobrenome, 50);
-		Constraints.setTextFieldInteger(txtCpf);
-		Constraints.setTextFieldMaxLength(txtRg, 15);
-		Constraints.setTextFieldMaxLength(txtRg, 16);
+		Constraints.setTextFieldMaxLength(txtNome, 60);
+		Constraints.setTextFieldMaxLength(txtCnpj, 14);
+		Constraints.setTextFieldMaxLength(txtTelefone, 16);
 	}
 	
 	public void updateDadosFormulario() {
-		
 		if (entidade == null) {
 			throw new IllegalStateException("Entidade esta nulo");
 		}
 		
-		txtId.setText(String.valueOf(entidade.getIdCliente()));
+		txtId.setText(String.valueOf(entidade.getIdEmpresa()));
 		txtNome.setText(entidade.getNome());
-		txtSobrenome.setText(entidade.getSobrenome());
-		txtCpf.setText(entidade.getCpf());
-		txtRg.setText(entidade.getRg());
+		txtCnpj.setText(entidade.getCnpj());
 		txtTelefone.setText(entidade.getTelefone());
 	}
 	
@@ -200,14 +172,8 @@ public class ClienteFormularioController implements Initializable{
 		if (campos.contains("nome")) {
 			txtNomeErro.setText(erros.get("nome"));
 		}
-		if (campos.contains("sobrenome")) {
-			txtSobrenomeErro.setText(erros.get("sobrenome"));
-		}
-		if (campos.contains("cpf")) {
-			txtCpfErro.setText(erros.get("cpf"));
-		}
-		if (campos.contains("rg")) {
-			txtRgErro.setText(erros.get("rg"));
+		if (campos.contains("cnpj")) {
+			txtCnpjErro.setText(erros.get("cnpj"));
 		}
 		if (campos.contains("telefone")) {
 			txtTelefoneErro.setText(erros.get("telefone"));
@@ -215,30 +181,23 @@ public class ClienteFormularioController implements Initializable{
 	}
 	
 	private Boolean temErros(Map<String, String> erros) {
-		Integer quantidade_erros = 0;
+		Integer quantidadeErros = 0;
 		
 		if (erros.get("nome") != "") {
-			quantidade_erros += 1;
+			quantidadeErros += 1;
 		}
-		if (erros.get("sobrenome") != "") {
-			quantidade_erros += 1;
-		}
-		if (erros.get("cpf") != "") {
-			quantidade_erros += 1;
-		}
-		if (erros.get("rg") != "") {
-			quantidade_erros += 1;
+		if (erros.get("cnpj") != "") {
+			quantidadeErros += 1;
 		}
 		if (erros.get("telefone") != "") {
-			quantidade_erros += 1;
+			quantidadeErros += 1;
 		}
 		
-		if (quantidade_erros > 0) {
+		if (quantidadeErros > 0) {
 			return true;
 		} else {
 			return false;
 		}
-		
 	}
 	
 }

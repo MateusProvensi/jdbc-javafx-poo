@@ -17,6 +17,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import modelo.servicos.ClienteServico;
+import modelo.servicos.EmpresaServico;
 
 public class MainViewController implements Initializable{
 
@@ -57,7 +58,10 @@ public class MainViewController implements Initializable{
 	
 	@FXML
 	public void onMenuItemRegistrarEmpresaAcao() {
-		System.out.println("onMenuItemRegistrarEmpresaAcao");
+		carregarView("/gui/EmpresaLista.fxml", (EmpresaListaControler controller) -> {
+			controller.setEmpresaServico(new EmpresaServico());
+			controller.updateVisualizacaoTabela();
+		});;
 	}
 	
 	@FXML

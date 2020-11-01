@@ -29,99 +29,91 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import modelo.entidades.Cliente;
-import modelo.servicos.ClienteServico;
+import modelo.entidades.Empresa;
+import modelo.servicos.EmpresaServico;
 
-public class ClienteListaController implements Initializable, DadosMudancaOuvintes{
+public class EmpresaListaControler implements Initializable, DadosMudancaOuvintes{
 
-	private ClienteServico servico;
+	private EmpresaServico servico;
 	
-	private ObservableList<Cliente> obsList;
-	
-	@FXML
-	private TableView<Cliente> tableViewCliente;
-	
-	@FXML
-	private TableColumn<Cliente, Integer> tableColumnId;
-	
-	@FXML
-	private TableColumn<Cliente, String> tableColumnNome;
-	
-	@FXML
-	private TableColumn<Cliente, String> tableColumnSobrenome;
-	
-	@FXML
-	private TableColumn<Cliente, String> tableColumnCpf;
-	
-	@FXML
-	private TableColumn<Cliente, String> tableColumnRg;
-	
-	@FXML
-	private TableColumn<Cliente, String> tableColumnTelefone;
-	
-	@FXML 
-	private TableColumn<Cliente, Cliente> tableColumnEDIT;
-	
-	@FXML 
-	private TableColumn<Cliente, Cliente> tableColumnREMOVE;
+	private ObservableList<Empresa> obsList;
 	
 	@FXML
 	private Button btNovo;
 	
 	@FXML
+	private TableView<Empresa> tableViewEmpresa;
+	
+	@FXML
+	private TableColumn<Empresa, Integer> tableColumnId;
+	
+	@FXML
+	private TableColumn<Empresa, String> tableColumnNome;
+	
+	@FXML
+	private TableColumn<Empresa, String> tableColumnCnpj;
+	
+	@FXML
+	private TableColumn<Empresa, String> tableColumnTelefone;
+	
+	@FXML
+	private TableColumn<Empresa, Empresa> tableColumnEDITAR;
+	
+	@FXML
+	private TableColumn<Empresa, Empresa> tableColumnREMOVER;
+	
+	@FXML
 	public void onBtNovoAcao(ActionEvent evento) {
 		Stage parentStage = Utils.stageAtual(evento);
-		Cliente obj = new Cliente();
-		criarFormularioCliente(obj, "/gui/ClienteFormulario.fxml", parentStage);
+		Empresa obj = new Empresa();
+		criarFormularioEmpresa(obj, "/gui/EmpresaFormulario.fxml", parentStage);
 	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		iniciarNodes();		
+		iniciarNodes();
 	}
 
-	public void setClienteServico(ClienteServico servico) {
+	public void setEmpresaServico(EmpresaServico servico) {
 		this.servico = servico;
 	}
 	
-	private void iniciarNodes() {
-		tableColumnId.setCellValueFactory(new PropertyValueFactory<>("idCliente"));
+	public void iniciarNodes() {
+		tableColumnId.setCellValueFactory(new PropertyValueFactory<>("idEmpresa"));
 		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-		tableColumnSobrenome.setCellValueFactory(new PropertyValueFactory<>("sobrenome"));
-		tableColumnCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
-		tableColumnRg.setCellValueFactory(new PropertyValueFactory<>("rg"));
+		tableColumnCnpj.setCellValueFactory(new PropertyValueFactory<>("cnpj"));
 		tableColumnTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
 		
 		Stage stage = (Stage) Main.getMainScene().getWindow();
-		tableViewCliente.prefHeightProperty().bind(stage.heightProperty());
+		tableViewEmpresa.prefHeightProperty().bind(stage.heightProperty());
 	}
 	
 	public void updateVisualizacaoTabela() {
 		if (servico == null) {
-			throw new IllegalStateException("Servico ta nulo");
+			throw new IllegalStateException("Servico esta nulo");
 		}
-		List<Cliente> lista = servico.acharTodos();
+		List<Empresa> lista = servico.acharTodos();
 		obsList = FXCollections.observableArrayList(lista);
-		tableViewCliente.setItems(obsList);
+		tableViewEmpresa.setItems(obsList);
 		iniciarBotoesEditar();
 		iniciarBotoesExcluir();
 	}
 	
-	private void criarFormularioCliente(Cliente obj, String caminho, Stage parentStage) {
+	public void criarFormularioEmpresa(Empresa obj, String caminho, Stage parentStage) {
 		
 		try {
 			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminho));
 			Pane pane = loader.load();
 			
-			ClienteFormularioController controller = loader.getController();
-			controller.setCliente(obj);
-			controller.setClienteServico(new ClienteServico());
+			EmpresaFormularioController controller = loader.getController();
+			controller.setEmpresa(obj);
+			controller.setEmpresaServico(new EmpresaServico());
 			controller.addOuvintes(this);
 			controller.updateDadosFormulario();
 			
 			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Criar cliente");
+			dialogStage.setTitle("Criar empresa");
 			dialogStage.setScene(new Scene(pane));
 			dialogStage.setResizable(false);
 			dialogStage.initOwner(parentStage);
@@ -129,23 +121,23 @@ public class ClienteListaController implements Initializable, DadosMudancaOuvint
 			dialogStage.showAndWait();
 			
 		} catch (IOException e) {
-			Alerts.mostrarAlerta("IOException", "Erro ao carregar a view", e.getMessage(), AlertType.ERROR);
+			Alerts.mostrarAlerta("IO Exception", "Erro ao carregar a view", e.getMessage(), AlertType.ERROR);
 		}
 		
 	}
-
+	
 	@Override
 	public void onMudancaDados() {
 		updateVisualizacaoTabela();
 	}
 	
 	private void iniciarBotoesEditar() {
-		tableColumnEDIT.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		tableColumnEDIT.setCellFactory(param -> new TableCell<Cliente, Cliente>() {
+		tableColumnEDITAR.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColumnEDITAR.setCellFactory(param -> new TableCell<Empresa, Empresa>() {
 			private final Button button = new Button("Editar");
 
 			@Override
-			protected void updateItem(Cliente obj, boolean empty) {
+			protected void updateItem(Empresa obj, boolean empty) {
 				super.updateItem(obj, empty);
 				if (obj == null) {
 					setGraphic(null);
@@ -153,18 +145,18 @@ public class ClienteListaController implements Initializable, DadosMudancaOuvint
 				}
 				setGraphic(button);
 				button.setOnAction(
-						event -> criarFormularioCliente(obj, "/gui/ClienteFormulario.fxml", Utils.stageAtual(event)));
+						event -> criarFormularioEmpresa(obj, "/gui/EmpresaFormulario.fxml", Utils.stageAtual(event)));
 			}
 		});
 	}
 
 	private void iniciarBotoesExcluir() {
-		tableColumnREMOVE.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		tableColumnREMOVE.setCellFactory(param -> new TableCell<Cliente, Cliente>() {
+		tableColumnREMOVER.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColumnREMOVER.setCellFactory(param -> new TableCell<Empresa, Empresa>() {
 			private final Button button = new Button("Remover");
 
 			@Override
-			protected void updateItem(Cliente obj, boolean empty) {
+			protected void updateItem(Empresa obj, boolean empty) {
 				super.updateItem(obj, empty);
 				if (obj == null) {
 					setGraphic(null);
@@ -176,7 +168,7 @@ public class ClienteListaController implements Initializable, DadosMudancaOuvint
 		});
 	}
 
-	private void removerEntidade(Cliente obj) {
+	private void removerEntidade(Empresa obj) {
 		Optional<ButtonType> result = Alerts.mostrarTelaConfirmacao("Confirmacao", "Tem certeza que irá deletar?");
 
 		if (result.get() == ButtonType.OK) {
@@ -193,5 +185,4 @@ public class ClienteListaController implements Initializable, DadosMudancaOuvint
 
 		}
 	}
-	
 }

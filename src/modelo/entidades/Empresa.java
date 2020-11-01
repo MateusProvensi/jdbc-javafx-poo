@@ -14,7 +14,7 @@ public class Empresa extends PessoaJuridica implements Serializable {
 	public Empresa() {
 	}
 	
-	public Empresa( Integer idEmpresa, String nome, String cnpj,String telefone) {
+	public Empresa( Integer idEmpresa, String nome, String cnpj, String telefone) {
 		super(nome, cnpj);
 		this.idEmpresa = idEmpresa;
 		this.telefone = telefone;
