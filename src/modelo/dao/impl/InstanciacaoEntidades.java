@@ -45,7 +45,7 @@ public class InstanciacaoEntidades {
 		obj.setCpf(rs.getString("cpf_fornecedor"));
 		obj.setRg(rs.getString("rg_fornecedor"));
 		obj.setTelefone(rs.getString("telefone_fornecedor"));
-		obj.setDataUltimaVisita(rs.getDate("data_ultima_visita"));
+		obj.setDataUltimaVisita(new java.util.Date(rs.getDate("data_ultima_visita").getTime()));
 		obj.setEmpresa(empresa);
 				
 		return obj;
@@ -81,7 +81,7 @@ public class InstanciacaoEntidades {
 		obj.setCodigoBarras(rs.getString("codigo_barras"));
 		obj.setPrecoVenda(rs.getDouble("preco_venda"));
 		obj.setQuantidade(rs.getInt("quantidade"));
-		obj.setValidade(rs.getDate("validade"));
+		obj.setValidade(new java.util.Date(rs.getDate("validade").getTime()));
 		obj.setCorredor(rs.getString("corredor"));
 		obj.setFornecedorMarca(fornecedorMarca);
 		
@@ -111,7 +111,7 @@ public class InstanciacaoEntidades {
 		Venda obj = new Venda();
 		obj.setIdVenda(rs.getInt("id_venda"));
 		obj.setPrecoTotal(rs.getDouble("preco_total"));
-		obj.setDataHoraVenda(rs.getDate("data_hora_venda"));
+		obj.setDataHoraVenda(new java.util.Date(rs.getDate("data_hora_venda").getTime()));
 		obj.setCliente(cliente);
 		obj.setFuncionario(funcionario);
 		
