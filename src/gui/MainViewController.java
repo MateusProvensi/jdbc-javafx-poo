@@ -20,6 +20,7 @@ import modelo.servicos.ClienteServico;
 import modelo.servicos.EmpresaServico;
 import modelo.servicos.FornecedorServico;
 import modelo.servicos.FuncionarioServico;
+import modelo.servicos.MarcaServico;
 
 public class MainViewController implements Initializable{
 
@@ -94,7 +95,10 @@ public class MainViewController implements Initializable{
 	
 	@FXML
 	public void onMenuItemRegistrarMarcaAcao() {
-		System.out.println("onMenuItemRegistrarMarcaAcao");
+		carregarView("/gui/MarcaLista.fxml", (MarcaListaController controller) -> {
+			controller.setMarcaServico(new MarcaServico());
+			controller.updateVisualizacaoTabela();
+		});
 	}
 	
 	@FXML

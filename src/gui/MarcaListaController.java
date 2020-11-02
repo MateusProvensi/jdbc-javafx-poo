@@ -2,7 +2,6 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -30,45 +29,33 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import modelo.entidades.Fornecedor;
+import modelo.entidades.Marca;
 import modelo.servicos.EmpresaServico;
-import modelo.servicos.FornecedorServico;
+import modelo.servicos.MarcaServico;
 
-public class FornecedorListaController implements Initializable, DadosMudancaOuvintes{
+public class MarcaListaController implements Initializable, DadosMudancaOuvintes{
 
-	private FornecedorServico servico;
+	private MarcaServico servico;
 	
-	private ObservableList<Fornecedor> obsList;
-	
-	@FXML
-	private TableView<Fornecedor> tableViewFornecedor;
+	private ObservableList<Marca> obsList;
 	
 	@FXML
-	private TableColumn<Fornecedor, Integer> tableColumnIdFornecedor;
+	private TableView<Marca> tableViewMarca;
 	
 	@FXML
-	private TableColumn<Fornecedor, String> tableColumnNome;
+	private TableColumn<Marca, Integer> tableColumnIdMarca;
 	
 	@FXML
-	private TableColumn<Fornecedor, String> tableColumnSobrenome;
+	private TableColumn<Marca, String> tableColumnNome;
 	
 	@FXML
-	private TableColumn<Fornecedor, String> tableColumnCpf;
+	private TableColumn<Marca, String> tableColumnCnpj;
 	
 	@FXML
-	private TableColumn<Fornecedor, String> tableColumnRg;
+	private TableColumn<Marca, Marca> tableColumnEDITAR;
 	
 	@FXML
-	private TableColumn<Fornecedor, String> tableColumnTelefone;
-	
-	@FXML
-	private TableColumn<Fornecedor, Date> tableColumnDataUltimaVisita;
-	
-	@FXML
-	private TableColumn<Fornecedor, Fornecedor> tableColumnEDITAR;
-	
-	@FXML
-	private TableColumn<Fornecedor, Fornecedor> tableColumnREMOVER;
+	private TableColumn<Marca, Marca> tableColumnREMOVER;
 	
 	@FXML
 	private Button btNovo;
@@ -76,60 +63,54 @@ public class FornecedorListaController implements Initializable, DadosMudancaOuv
 	@FXML
 	public void onBtNovoAcao(ActionEvent evento) {
 		Stage parentStage = Utils.stageAtual(evento);
-		Fornecedor obj = new Fornecedor();
-		criarFormularioFornecedor(obj, "/gui/FornecedorFormulario.fxml", parentStage);
+		Marca obj = new Marca();
+		criarFormularioMarca(obj, "/gui/MarcaFormulario.fxml", parentStage);
 	}
 	
-	public void setFornecedorServico(FornecedorServico servico) {
+	public void setMarcaServico(MarcaServico servico) {
 		this.servico = servico;
 	}
-		
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		inicializarNodes();
-		
+		inicializarNodes();		
 	}
 	
 	private void inicializarNodes() {
-		tableColumnIdFornecedor.setCellValueFactory(new PropertyValueFactory<>("idFornecedor"));
+		tableColumnIdMarca.setCellValueFactory(new PropertyValueFactory<>("idMarca"));
 		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-		tableColumnSobrenome.setCellValueFactory(new PropertyValueFactory<>("sobrenome"));
-		tableColumnCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
-		tableColumnRg.setCellValueFactory(new PropertyValueFactory<>("rg"));
-		tableColumnTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
-		tableColumnDataUltimaVisita.setCellValueFactory(new PropertyValueFactory<>("dataUltimaVisita"));
-		Utils.formatarTableColumnDate(tableColumnDataUltimaVisita, "dd/MM/yyyy");
+		tableColumnCnpj.setCellValueFactory(new PropertyValueFactory<>("cnpj"));
 		
 		Stage stage = (Stage) Main.getMainScene().getWindow();
-		tableViewFornecedor.prefHeightProperty().bind(stage.heightProperty());
+		tableViewMarca.prefHeightProperty().bind(stage.heightProperty());
 	}
 	
 	public void updateVisualizacaoTabela() {
 		if (servico == null) {
 			throw new IllegalStateException("Servico esta nulo");
 		}
-		List<Fornecedor> lista = servico.acharTodos();
+		List<Marca> lista = servico.acharTodos();
 		obsList = FXCollections.observableArrayList(lista);
-		tableViewFornecedor.setItems(obsList);
+		tableViewMarca.setItems(obsList);
 		iniciarBotoesEditar();
 		iniciarBotoesExcluir();
 	}
 	
-	private void criarFormularioFornecedor(Fornecedor obj, String caminho, Stage parentStage) {
+	private void criarFormularioMarca(Marca obj, String caminho, Stage parentStage) {
 		try {
 			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminho));
 			Pane pane = loader.load();
 			
-			FornecedorFormularioController controller = loader.getController();
-			controller.setFornecedor(obj);
-			controller.setFornecedorServicos(new FornecedorServico(), new EmpresaServico());
+			MarcaFormularioController controller = loader.getController();
+			controller.setMarca(obj);
+			controller.setMarcaServicos(new MarcaServico(), new EmpresaServico());
 			controller.carregarObjetosAssociados();
 			controller.addOuvintes(this);
 			controller.updateDadosFormulario();
 			
 			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Criar novo fornecedor");
+			dialogStage.setTitle("Criar nova Marca");
 			dialogStage.setScene(new Scene(pane));
 			dialogStage.setResizable(false);
 			dialogStage.initOwner(parentStage);
@@ -140,19 +121,18 @@ public class FornecedorListaController implements Initializable, DadosMudancaOuv
 			Alerts.mostrarAlerta("IOException", "Erro ao carregar a view", e.getMessage(), AlertType.ERROR);
 		}
 	}
-
+	 
 	@Override
 	public void onMudancaDados() {
 		updateVisualizacaoTabela();
 	}
-
 	private void iniciarBotoesEditar() {
 		tableColumnEDITAR.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		tableColumnEDITAR.setCellFactory(param -> new TableCell<Fornecedor, Fornecedor>() {
+		tableColumnEDITAR.setCellFactory(param -> new TableCell<Marca, Marca>() {
 			private final Button button = new Button("Editar");
 
 			@Override
-			protected void updateItem(Fornecedor obj, boolean empty) {
+			protected void updateItem(Marca obj, boolean empty) {
 				super.updateItem(obj, empty);
 				if (obj == null) {
 					setGraphic(null);
@@ -160,18 +140,18 @@ public class FornecedorListaController implements Initializable, DadosMudancaOuv
 				}
 				setGraphic(button);
 				button.setOnAction(
-						event -> criarFormularioFornecedor(obj, "/gui/FornecedorFormulario.fxml", Utils.stageAtual(event)));
+						event -> criarFormularioMarca(obj, "/gui/MarcaFormulario.fxml", Utils.stageAtual(event)));
 			}
 		});
 	}
 
 	private void iniciarBotoesExcluir() {
 		tableColumnREMOVER.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		tableColumnREMOVER.setCellFactory(param -> new TableCell<Fornecedor, Fornecedor>() {
+		tableColumnREMOVER.setCellFactory(param -> new TableCell<Marca, Marca>() {
 			private final Button button = new Button("Remover");
 
 			@Override
-			protected void updateItem(Fornecedor obj, boolean empty) {
+			protected void updateItem(Marca obj, boolean empty) {
 				super.updateItem(obj, empty);
 				if (obj == null) {
 					setGraphic(null);
@@ -183,7 +163,7 @@ public class FornecedorListaController implements Initializable, DadosMudancaOuv
 		});
 	}
 
-	private void removerEntidade(Fornecedor obj) {
+	private void removerEntidade(Marca obj) {
 		Optional<ButtonType> result = Alerts.mostrarTelaConfirmacao("Confirmacao", "Tem certeza que irá deletar?");
 
 		if (result.get() == ButtonType.OK) {
@@ -192,7 +172,7 @@ public class FornecedorListaController implements Initializable, DadosMudancaOuv
 				throw new IllegalStateException("Servico esta nulo");
 			}
 			try {
-				servico.delete(obj.getIdFornecedor());
+				servico.delete(obj.getIdMarca());
 				updateVisualizacaoTabela();
 			} catch (BDException e) {
 				Alerts.mostrarAlerta("Erro removendo objeto", null, e.getMessage(), AlertType.ERROR);

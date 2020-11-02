@@ -155,7 +155,7 @@ public class FuncionarioListaController implements Initializable, DadosMudancaOu
 				}
 				setGraphic(button);
 				button.setOnAction(
-						event -> criarFormularioFuncionario(obj, "/gui/ClienteFormulario.fxml", Utils.stageAtual(event)));
+						event -> criarFormularioFuncionario(obj, "/gui/FuncionarioFormulario.fxml", Utils.stageAtual(event)));
 			}
 		});
 	}
