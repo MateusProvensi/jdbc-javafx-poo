@@ -35,11 +35,16 @@ public class Empresa extends PessoaJuridica implements Serializable {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-
+/*
 	@Override
 	public String toString() {
 		return "Empresa [idEmpresa=" + idEmpresa + ", telefone=" + telefone + ", getNome()=" + getNome()
 				+ ", getCnpj()=" + getCnpj() + "]";
+	}
+*/
+	@Override
+	public String toString() {
+		return getNome();
 	}
 
 }

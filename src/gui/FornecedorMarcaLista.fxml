@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="388.0" prefWidth="917.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MarcaListaController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="457.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.FornecedorMarcaListaController">
    <children>
-      <Label text="Registrar Marca">
+      <Label text="Registrar Fornecedor Marca">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -24,13 +24,11 @@
           <Button fx:id="btNovo" mnemonicParsing="false" onAction="#onBtNovoAcao" text="Novo" />
         </items>
       </ToolBar>
-      <TableView fx:id="tableViewMarca" prefHeight="315.0" prefWidth="764.0">
+      <TableView fx:id="tableViewFornecedorMarca" prefHeight="343.0" prefWidth="457.0">
         <columns>
-          <TableColumn fx:id="tableColumnIdMarca" prefWidth="60.0" text="Id" />
-          <TableColumn fx:id="tableColumnNome" prefWidth="200.0" text="Nome" />
-            <TableColumn fx:id="tableColumnCnpj" prefWidth="173.0" text="CNPJ" />
-            <TableColumn fx:id="tableColumnEDITAR" prefWidth="96.0" />
-            <TableColumn fx:id="tableColumnREMOVER" prefWidth="104.0" />
+          <TableColumn fx:id="tableColumnIdFornecedorMarca" prefWidth="84.0" text="Id" />
+            <TableColumn fx:id="tableColumnEDITAR" prefWidth="91.0" />
+            <TableColumn fx:id="tableColumnREMOVER" prefWidth="97.0" />
         </columns>
       </TableView>
    </children>

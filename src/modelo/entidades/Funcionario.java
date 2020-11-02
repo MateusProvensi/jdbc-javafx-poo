@@ -36,12 +36,16 @@ public class Funcionario extends PessoaFisica implements Serializable {
 	public void setNumeroCaixa(Integer numeroCaixa) {
 		this.numeroCaixa = numeroCaixa;
 	}
-
+/*
 	@Override
 	public String toString() {
 		return "Funcionario [idFuncionario=" + idFuncionario + ", numeroCaixa=" + numeroCaixa + ", getNome()="
 				+ getNome() + ", getSobrenome()=" + getSobrenome() + ", getCpf()=" + getCpf() + ", getRg()=" + getRg()
 				+ ", getTelefone()=" + getTelefone() + "]";
 	}
-
+*/	
+	@Override
+	public String toString() {
+		return getNome();
+	}
 }

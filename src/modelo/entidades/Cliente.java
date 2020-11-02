@@ -25,11 +25,16 @@ public class Cliente extends PessoaFisica implements Serializable {
 	public void setIdCliente(Integer idCliente) {
 		this.idCliente = idCliente;
 	}
-
+/*
 	@Override
 	public String toString() {
 		return "Cliente [idCliente=" + idCliente + ", getNome()=" + getNome() + ", getSobrenome()=" + getSobrenome()
 				+ ", getCpf()=" + getCpf() + ", getRg()=" + getRg() + ", getTelefone()=" + getTelefone() + "]";
+	}
+*/	
+	@Override
+	public String toString() {
+		return getNome();
 	}
 
 }

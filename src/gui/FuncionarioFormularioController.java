@@ -184,7 +184,7 @@ public class FuncionarioFormularioController implements Initializable{
 		txtIdFuncionario.setText(String.valueOf(entidade.getIdFuncionario()));
 		txtNome.setText(entidade.getNome());
 		txtSobrenome.setText(entidade.getSobrenome());
-		txtCpf.setText(entidade.getSobrenome());
+		txtCpf.setText(entidade.getCpf());
 		txtRG.setText(entidade.getRg());
 		txtTelefone.setText(entidade.getTelefone());
 		txtNumeroCaixa.setText(String.valueOf(entidade.getNumeroCaixa()));

@@ -47,12 +47,16 @@ public class Fornecedor extends PessoaFisica implements Serializable {
 	public void setEmpresa(Empresa empresa) {
 		this.empresa = empresa;
 	}
-
+/*
 	@Override
 	public String toString() {
 		return "Fornecedor [idFornecedor=" + idFornecedor + ", dataUltimaVisita=" + dataUltimaVisita + ", empresa="
 				+ empresa + ", getNome()=" + getNome() + ", getSobrenome()=" + getSobrenome() + ", getCpf()=" + getCpf()
 				+ ", getRg()=" + getRg() + ", getTelefone()=" + getTelefone() + "]";
 	}
-
+*/
+	@Override
+	public String toString() {
+		return getNome();
+	}
 }

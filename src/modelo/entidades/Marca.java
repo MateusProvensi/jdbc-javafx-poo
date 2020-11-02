@@ -35,11 +35,16 @@ public class Marca extends PessoaJuridica implements Serializable {
 	public void setEmpresa(Empresa empresa) {
 		this.empresa = empresa;
 	}
-
+/*
 	@Override
 	public String toString() {
 		return "Marca [idMarca=" + idMarca + ", empresa=" + empresa + ", getNome()=" + getNome() + ", getCnpj()="
 				+ getCnpj() + "]";
 	}
-
+*/
+	
+	@Override
+	public String toString() {
+		return getNome();
+	}
 }

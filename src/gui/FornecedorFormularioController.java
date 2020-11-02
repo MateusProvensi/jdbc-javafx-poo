@@ -46,7 +46,7 @@ public class FornecedorFormularioController implements Initializable{
 	
 	private List<DadosMudancaOuvintes> DadosMudancasOuvintes = new ArrayList<>();
 	
-	private ObservableList<Empresa> obsList;
+	private ObservableList<Empresa> obsLista;
 	
 	@FXML
 	private TextField txtIdFornecedor;
@@ -225,8 +225,8 @@ public class FornecedorFormularioController implements Initializable{
 			throw new IllegalStateException("EmpresaServico esta nulo");			
 		}
 		List<Empresa> listaEmpresas = empresaServico.acharTodos();
-		obsList = FXCollections.observableArrayList(listaEmpresas);
-		comboBoxEmpresa.setItems(obsList);
+		obsLista = FXCollections.observableArrayList(listaEmpresas);
+		comboBoxEmpresa.setItems(obsLista);
 	}
 	
 	private void setMensagensErros(Map<String, String> erros) {
