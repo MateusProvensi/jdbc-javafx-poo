@@ -207,7 +207,7 @@ public class FornecedorFormularioController implements Initializable{
 		txtIdFornecedor.setText(String.valueOf(entidade.getIdFornecedor()));
 		txtNome.setText(entidade.getNome());
 		txtSobrenome.setText(entidade.getSobrenome());
-		txtCpf.setText(entidade.getSobrenome());
+		txtCpf.setText(entidade.getCpf());
 		txtRg.setText(entidade.getRg());
 		txtTelefone.setText(entidade.getTelefone());
 		if (entidade.getDataUltimaVisita() != null) {

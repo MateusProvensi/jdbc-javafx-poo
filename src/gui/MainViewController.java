@@ -21,6 +21,7 @@ import modelo.servicos.EmpresaServico;
 import modelo.servicos.FornecedorMarcaServico;
 import modelo.servicos.FornecedorServico;
 import modelo.servicos.FuncionarioServico;
+import modelo.servicos.ItemServico;
 import modelo.servicos.MarcaServico;
 
 public class MainViewController implements Initializable{
@@ -47,7 +48,10 @@ public class MainViewController implements Initializable{
 	private MenuItem menuItemRegistrarMarca;
 	
 	@FXML
-	private MenuItem menuItemVendaFazerVenda;
+	private MenuItem menuItemVendaCriarVenda;
+	
+	@FXML
+	private MenuItem menuItemVendaAdicionarItem;
 	
 	@FXML
 	private MenuItem menuItemAjudaAjuda;
@@ -94,7 +98,10 @@ public class MainViewController implements Initializable{
 	
 	@FXML
 	public void onMenuItemRegistrarItemAcao() {
-		System.out.println("onMenuItemRegistrarItemAcao");
+		carregarView("/gui/ItemLista.fxml", (ItemListaController controller) ->{
+			controller.setItemServico(new ItemServico());
+			controller.updateVisualizacaoTabela();
+		});
 	}
 	
 	@FXML
@@ -106,8 +113,13 @@ public class MainViewController implements Initializable{
 	}
 	
 	@FXML
-	public void onMenuItemVendaFazerVendaAcao() {
-		System.out.println("onMenuItemVendaFazerVendaAcao");
+	public void onMenuItemVendaCriarVendaAcao() {
+		System.out.println("onMenuItemVendaCriarVendaAcao");
+	}
+	
+	@FXML
+	public void onMenuItemVendaAdicionarItensAcao() {
+		System.out.println("onMenuItemVendaAdicionarItensAcao");
 	}
 	
 	@FXML
