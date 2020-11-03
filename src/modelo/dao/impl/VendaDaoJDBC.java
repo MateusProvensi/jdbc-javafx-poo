@@ -173,5 +173,6 @@ public class VendaDaoJDBC implements VendaDao{
 			BD.fecharStatement(st);
 		}
 		
-	}	
+	}
+	
 }

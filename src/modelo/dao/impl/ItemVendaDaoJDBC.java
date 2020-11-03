@@ -218,4 +218,8 @@ public class ItemVendaDaoJDBC implements ItemVendaDao{
 		}
 		
 	}
+	
+	public void itensPeloIdVenda(Integer id) {
+		// Importar do Banco de Dados
+	}
 }

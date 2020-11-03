@@ -15,14 +15,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import modelo.entidades.ItemVenda;
 import modelo.servicos.ClienteServico;
 import modelo.servicos.EmpresaServico;
 import modelo.servicos.FornecedorMarcaServico;
 import modelo.servicos.FornecedorServico;
 import modelo.servicos.FuncionarioServico;
 import modelo.servicos.ItemServico;
+import modelo.servicos.ItemVendaServico;
 import modelo.servicos.MarcaServico;
+import modelo.servicos.VendaServico;
 
 public class MainViewController implements Initializable{
 
@@ -114,12 +120,15 @@ public class MainViewController implements Initializable{
 	
 	@FXML
 	public void onMenuItemVendaCriarVendaAcao() {
-		System.out.println("onMenuItemVendaCriarVendaAcao");
+		carregarView("/gui/VendaLista.fxml", (VendaListaController controller) -> {
+			controller.setVendaServico(new VendaServico());
+			controller.updateVisualizacaoTabela();
+		});
 	}
 	
 	@FXML
 	public void onMenuItemVendaAdicionarItensAcao() {
-		System.out.println("onMenuItemVendaAdicionarItensAcao");
+		criarFormularioItemVenda("/gui/ItemVendaFormulario.fxml", new Stage());
 	}
 	
 	@FXML
@@ -151,6 +160,31 @@ public class MainViewController implements Initializable{
 			
 		} catch (IOException e) {
 			Alerts.mostrarAlerta("IO Exception", "Erro ao carregar a view", e.getMessage(), AlertType.ERROR);
+		}
+	}
+	
+	private void criarFormularioItemVenda(String caminho, Stage parentStage) {
+		try {
+			
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminho));
+			Pane pane = loader.load();
+			
+			RegistrarItemFormularioController controller = loader.getController();
+			controller.setItemVenda(new ItemVenda());
+			controller.setItemVendaServicos(new ItemVendaServico(), new VendaServico(), new ItemServico());
+			controller.carregarObjetosAssociados();
+			controller.updateDadosFormulario();
+			
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Criar Venda");
+			dialogStage.setScene(new Scene(pane));
+			dialogStage.setResizable(false);
+			dialogStage.initOwner(parentStage);
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.showAndWait();
+			
+		} catch (IOException e) {
+			Alerts.mostrarAlerta("IOException", "Erro ao carregar a view", e.getMessage(), AlertType.ERROR);
 		}
 	}
 	
