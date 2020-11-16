@@ -64,6 +64,10 @@ public class Venda implements Serializable{
 		this.funcionario = funcionario;
 	}
 
+	public void acrescentarValorVenda(Double valor) {
+		this.precoTotal += valor;
+	}
+
 	@Override
 	public String toString() {
 		return "Venda [idVenda=" + idVenda + ", precoTotal=" + precoTotal + ", dataHoraVenda=" + dataHoraVenda

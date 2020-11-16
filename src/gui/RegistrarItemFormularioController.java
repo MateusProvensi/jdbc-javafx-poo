@@ -104,7 +104,6 @@ public class RegistrarItemFormularioController implements Initializable{
 		obj.setItem(comboBoxItem.getValue());
 		obj.setVenda(comboBoxVenda.getValue());
 
-
 		return obj;
 	}
 
@@ -173,7 +172,9 @@ public class RegistrarItemFormularioController implements Initializable{
 		comboBoxVenda.setButtonCell(factory.call(null));
 	}
 	
-	public void mudarValorVenda(Integer idVenda) {
-		
+	private void mudarValorVenda(Integer idVenda) {
+		Venda venda = vendaServico.acharPeloId(idVenda);
+		venda.acrescentarValorVenda(comboBoxItem.getValue().getPrecoVenda());
+		vendaServico.insertOuUpdate(venda);
 	}
 }

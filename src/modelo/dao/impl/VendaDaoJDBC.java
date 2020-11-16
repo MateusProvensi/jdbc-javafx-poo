@@ -83,6 +83,7 @@ public class VendaDaoJDBC implements VendaDao{
 			st.setDate(2, new java.sql.Date(obj.getDataHoraVenda().getTime()));
 			st.setInt(3, obj.getCliente().getIdCliente());
 			st.setInt(4, obj.getFuncionario().getIdFuncionario());
+			st.setInt(5, obj.getIdVenda());
 			
 			st.executeUpdate();
 			
@@ -173,6 +174,39 @@ public class VendaDaoJDBC implements VendaDao{
 			BD.fecharStatement(st);
 		}
 		
+	}
+
+	@Override
+	public Venda acharPeloId(Integer id) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			st = conn.prepareStatement(
+					"SELECT * FROM venda "
+					+ "INNER JOIN cliente, funcionario "
+					+ "WHERE venda.id_venda = ? "
+					+ "AND venda.fk_id_cliente = cliente.id_cliente "
+					+ "AND venda.fk_id_funcionario = funcionario.id_funcionario"
+					);
+			
+			st.setInt(1, id);
+			
+			rs = st.executeQuery();
+			
+			if (rs.next()) {
+				Cliente cliente = InstanciacaoEntidades.instanciarCliente(rs);
+				Funcionario funcionario = InstanciacaoEntidades.instanciarFuncionario(rs);
+				Venda obj = InstanciacaoEntidades.instanciarVenda(rs, funcionario, cliente);
+				return obj;
+			} 
+			
+			return null;
+			
+		} catch (SQLException e) {
+			throw new BDException(e.getMessage());
+		}
 	}
 	
 }

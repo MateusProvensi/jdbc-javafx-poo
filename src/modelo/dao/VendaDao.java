@@ -14,4 +14,6 @@ public interface VendaDao {
 	
 	List<Venda> acharTodos();
 	
+	Venda acharPeloId(Integer id);
+	
 }

@@ -26,4 +26,9 @@ public class VendaServico {
 		dao.deletePeloId(id);
 	}
 	
+	public Venda acharPeloId(Integer id) {
+		Venda obj = dao.acharPeloId(id);
+		return obj;
+	}
+	
 }
